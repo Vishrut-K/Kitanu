@@ -115,8 +115,10 @@
             position: fixed;
             width: 10px;
             height: 10px;
+            background-color: #ffd700;
             border-radius: 50%;
             animation: fall linear forwards;
+            z-index: 1;
         }
 
         .balloon {
@@ -222,13 +224,21 @@
         }
 
         @keyframes fall {
-            0% { transform: translateY(-100vh) rotate(0deg); }
-            100% { transform: translateY(100vh) rotate(360deg); }
+            from {
+                transform: translateY(-100vh) rotate(0deg);
+            }
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         @keyframes fadeIn {
@@ -581,10 +591,15 @@
             // It's celebration time!
             countdownContainer.style.display = 'none';
             mainContent.style.display = 'block';
-            // Start celebrations
-            createBalloons();
-            createConfetti();
-            setInterval(createConfetti, 2500);
+            document.title = "Happy Birthday Vihu 🎉";
+            
+            // Start celebrations after a short delay
+            setTimeout(() => {
+                createBalloons();
+                createConfetti();
+                setInterval(createConfetti, 2500);
+            }, 500);
+            
             // Initialize music
             loadPlaylist();
             loadSong(0);
@@ -782,16 +797,17 @@
             const colors = ['#ffd700', '#ff69b4', '#ff1493', '#ffa500'];
             for (let i = 0; i < 8; i++) {
                 const balloon = document.createElement('div');
+                balloon.className = 'balloon'; // Add this line
                 balloon.style.left = (i * 12 + 5) + '%';
                 balloon.style.animationDelay = (i * 0.2) + 's';
-                balloon.style.animationDelay = (i * 0.2) + 's';
+                
                 const balloonBody = document.createElement('div');
-                balloonBody.className = 'balloon-body';ent('div');
+                balloonBody.className = 'balloon-body';
                 balloonBody.style.backgroundColor = colors[i % colors.length];
-                balloonBody.style.backgroundColor = colors[i % colors.length];
+                
                 const string = document.createElement('div');
-                string.className = 'balloon-string';t('div');
                 string.className = 'balloon-string';
+                                balloon.appendChild(balloonBody);
                 balloon.appendChild(balloonBody);
                 balloon.appendChild(string);
                 document.body.appendChild(balloon);
@@ -805,12 +821,12 @@
                 document.querySelectorAll('.gallery-item').forEach(i => {
                     i.classList.remove('active');
                 });
-                // Add active class to clicked item
+                // Add active class to the clicked item
                 this.classList.add('active');
             });
         });
 
-        // Close quote on touch outside
+        // Remove active class when touching outside
         document.addEventListener('touchstart', function (e) {
             if (!e.target.closest('.gallery-item')) {
                 document.querySelectorAll('.gallery-item').forEach(item => {
@@ -823,7 +839,6 @@
         createBalloons();
         createConfetti();
         setInterval(createConfetti, 2500);
-    </script>terval(createConfetti, 2500);
-</body></script>
-</html>
+    </script>
+</body>
 </html>
