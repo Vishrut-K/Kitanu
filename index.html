@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading... 🎀</title>
+    <link rel="icon" type="image/png" href="/images/top.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #ea67df, #fff9e6);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        h1 {
+            color: #f7f180;
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: bounce 1s ease infinite;
+        }
+
+        .message-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            animation: fadeIn 1.5s ease-out forwards;
+            position: relative;
+            z-index: 2;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #444;
+        }
+
+        .special-text {
+            font-weight: bold;
+            color: #ffd700;
+            font-size: 1.3em;
+            margin-top: 30px;
+            font-family: 'Pacifico', cursive;
+        }
+
+        .heart {
+            color: #ff1493;
+            font-size: 1.5em;
+            display: inline-block;
+            animation: pulse 1s infinite;
+            margin: 0 5px;
+        }
+
+        .music-button {
+            margin: 20px auto;
+            padding: 15px;
+            background: #ff69b4;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            text-decoration: none;
+            outline: none;  /* This removes the caret/focus outline */
+            -webkit-user-select: none;  /* Safari */
+            -ms-user-select: none;      /* IE 10+ */
+            user-select: none;          /* Standard syntax */
+        }
+
+        .music-button:active {
+            transform: scale(0.95);
+        }
+
+        .music-button:focus {
+            outline: none;  /* This removes the focus outline in Firefox */
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            margin-top: 40px;
+            border-top: 2px solid #ffd700;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: fall linear forwards;
+        }
+
+        .balloon {
+            position: fixed;
+            animation: float 3s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .balloon-body {
+            width: 50px;
+            height: 65px;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .balloon-string {
+            width: 2px;
+            height: 80px;
+            background-color: #666;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 30px 0;
+            animation: fadeIn 1.5s ease-out forwards;
+            position: relative;
+            z-index: 2;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .quote-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        /* For desktop */
+        @media (hover: hover) {
+            .gallery-item:hover .quote-overlay {
+                opacity: 1;
+            }
+        }
+
+        /* For mobile */
+        @media (hover: none) {
+            .gallery-item.active .quote-overlay {
+                opacity: 1;
+            }
+        }
+
+        .video-container {
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+         .music-player {
+            margin: 30px auto;
+            background: radial-gradient(circle at 50% 20%, #ffe066 60%, #ff69b4 100%);
+            border: 8px solid #b5651d;
+            border-radius: 40px 40px 60px 60px/60px 60px 100px 100px;
+            box-shadow: 0 8px 40px #b5651d55, 0 2px 0 #fff inset;
+            max-width: 420px;
+            padding: 35px 30px 40px 30px;
+            position: relative;
+            overflow: visible;
+        }
+.music-player:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: -28px;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 28px;
+    background: linear-gradient(90deg, #b5651d 0%, #ffe066 50%, #b5651d 100%);
+    border-radius: 60px 60px 0 0;
+    box-shadow: 0 4px 12px #b5651d55;
+}
+.music-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    background: #fffbe6;
+    border-radius: 30px;
+    padding: 10px 18px;
+    box-shadow: 0 2px 8px #b5651d22;
+}
+.music-button {
+    background: linear-gradient(145deg, #ff69b4 60%, #ffe066 100%);
+    border: 3px solid #b5651d;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    color: #b5651d;
+    font-size: 1.7em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px #b5651d33;
+    transition: transform 0.2s, box-shadow 0.2s;
+    outline: none;
+    user-select: none;
+}
+.music-button:active {
+    transform: scale(0.93);
+    box-shadow: 0 1px 2px #b5651d33;
+}
+.music-button:focus {
+    outline: none;
+}
+.playlist {
+    background: #fffbe6;
+    border-radius: 18px;
+    max-height: 210px;
+    overflow-y: auto;
+    border: 2px solid #b5651d;
+    box-shadow: 0 2px 8px #b5651d22;
+    margin-top: 10px;
+}
+.playlist-item {
+    padding: 13px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1em;
+    border-bottom: 1px dashed #b5651d33;
+    transition: background 0.3s, color 0.3s;
+}
+.playlist-item:last-child {
+    border-bottom: none;
+}
+.playlist-item:hover {
+    background: #ffe066;
+    color: #b5651d;
+}
+.playlist-item.active {
+    background: #ff69b4;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* --- PINBOARD THEME FOR MEMORY LANE --- */
+.section h2:contains('Memory Lane'), .section h2:has-text('Memory Lane') {
+    font-family: 'Permanent Marker', cursive, sans-serif;
+    color: #b5651d;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 #ffe066, 0 2px 6px #b5651d33;
+}
+.gallery {
+    background: #fbeec1 url('https://www.transparenttextures.com/patterns/cardboard-flat.png');
+    border: 6px solid #b5651d;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px #b5651d33;
+    padding: 32px 18px 18px 18px;
+    position: relative;
+    min-height: 320px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 28px;
+}
+.gallery-item {
+    background: #fffbe6;
+    border: 2px solid #ffe066;
+    border-radius: 12px;
+    box-shadow: 2px 6px 18px #b5651d22, 0 1px 0 #fff inset;
+    position: relative;
+    padding: 8px 8px 18px 8px;
+    transition: transform 0.15s;
+}
+.gallery-item:hover {
+    transform: rotate(-2deg) scale(1.04);
+    z-index: 2;
+}
+.gallery-item img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #b5651d33;
+    border: 2px solid #ffe066;
+    margin-bottom: 8px;
+    position: relative;
+}
+.gallery-item:before {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 22px;
+    background: radial-gradient(circle, #ffe066 60%, #b5651d 100%);
+    border-radius: 50%;
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 6px #b5651d44;
+    z-index: 3;
+    border: 2px solid #b5651d;
+}
+.quote-overlay {
+    font-family: 'Shadows Into Light', cursive, sans-serif;
+    font-size: 1.05em;
+    background: rgba(255, 255, 200, 0.95);
+    color: #b5651d;
+    border-radius: 8px;
+    border: 1px dashed #b5651d;
+    box-shadow: 0 2px 8px #b5651d22;
+    padding: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    position: absolute;
+    left: 8px; right: 8px; top: 8px; bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    word-break: break-word;      /* Ensures long words wrap */
+    overflow-y: auto;            /* Adds scroll if text is too long */
+    max-height: 90%;             /* Prevents overflow out of box */
+    line-height: 1.5;            /* Improves readability */
+}
+.gallery-item:hover .quote-overlay,
+.gallery-item.active .quote-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+.countdown-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #ff69b4, #ffe066);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.countdown {
+    font-size: 3em;
+    color: white;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 20px;
+}
+
+.countdown-message {
+    font-size: 1.5em;
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Shadows Into Light', cursive;
+}
+    </style>
+</head>
+<body>
+    <div class="countdown-container" id="countdown-container">
+    <div class="countdown" id="countdown"></div>
+    <div class="countdown-message">Coming soon... 🎂</div>
+</div>
+    <div class="container">
+        <h1>🎉 Happy 12th Birthday, Vaishavi! 🎂</h1>
+        
+        <div class="message-card">
+            <p>Wowwwww, you're officially 12 today, Vihu!</p>
+            <p>From all the fun times we've shared to the countless moments of laughter, you have always been the brightest star in our family. Your kindness, creativity, and energy make every day so much better.</p>
+            <p>You are growing up so fast, and I am so proud of the amazing person you are becoming. Always remember how special you are and how much you are loved.</p>
+            <p>Keep shining and chasing your dreams. </p>
+            <p>Wishing you all the happiness and magic in the world on your special day.</p>
+            <p>Cannot imagine a day without you.</p>
+            <p class="special-text">Have the best birthday ever, Vihu! <span class="heart">❤️</span></p>
+            <p>Loads of love</p>
+        </div>
+
+        <div class="section">
+            <h2>Birthday Girl's Special Dance! 💃</h2>
+            <div class="video-container">
+                <video width="100%" controls>
+                    <source src="video/dance.mp4" type="video/mp4">
+                    Your browser doesn't support video playback.
+                </video>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Birthday Playlist 🎵</h2>
+            <div class="music-player">
+                <div class="music-controls">
+                    <button class="music-button" onclick="prevSong()">⏮️</button>
+                    <button class="music-button" onclick="toggleMusic()">▶️</button>
+                    <button class="music-button" onclick="nextSong()">⏭️</button>
+                </div>
+                <div class="playlist" id="playlist">
+                    <!-- Playlist items will be dynamically loaded -->
+                </div>
+            </div>
+        </div>
+
+
+        <div class="section">
+            <h2 class="pinboard-title">Memory Lane 📸</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="images/1.jpg" alt="Memory 1">
+                    <div class="quote-overlay">
+                        "Koi mujhse pyaar nhi karta"
+                        <br>- Vihu
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/2.jpg" alt="Memory 2">
+                    <div class="quote-overlay">
+                        Happy Birthday Vihu ... Love you my cutie..<br>
+    mai Humsa se ek bhn hi chahti thi kyuki in dono bhaiyo ne mujhe bda pareshan kar ke rakha th ...<br>
+    or mai jab bhi vihu ke sath time spend krti hu stress free ho jti hu iski cute cute se baatein sun kar ♥
+    <br>- Kuchoo
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/3.jpg" alt="Memory 3">
+                    <div class="quote-overlay">
+                        "Teri smile kitni dangerous hai pata hai."
+                        <br>- YJHD
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/4.jpg" alt="Memory 4">
+                    <div class="quote-overlay">
+                        "Tere liye jo bhi karun km he lagega humesha, I love you so much tu he sb kuchh hai meri zindagi mai &lt;3 "
+                        <br>- Vishu Ba
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/5.jpg" alt="Memory 5">
+                    <div class="quote-overlay">
+                        "Same he khoon hai inka"
+                        <br>Father like daughter
+                        <br>- Papa ki pari
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/6.jpg" alt="Memory 6">
+                    <div class="quote-overlay">
+                        "Vihu tu meri pari hai, aur tu he meri khushi, aur teri har ek muskaan humari zindagi hai"
+                        <br>- Mumma
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/7.jpg" alt="Memory 7">
+                    <div class="quote-overlay">
+                        "Mai toh bahut he zyada khubsurat hoon"
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/8.jpg" alt="Memory 8">
+                    <div class="quote-overlay">
+                        "Mujhe toh pata he tha"
+                        <br>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/9.jpg" alt="Memory 9">
+                    <div class="quote-overlay">
+                        "Gandi ladki, gandi ladki"
+                        <br>- Ishu
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Made with <span class="heart">❤️</span> for Vihu</p>
+        <p>May 13, 2025</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const targetDate = new Date('2025-05-13T00:00:00');
+    const countdownContainer = document.getElementById('countdown-container');
+    const mainContent = document.querySelector('.container');
+    
+    function checkTime() {
+        const currentDate = new Date();
+        
+        if (currentDate >= targetDate) {
+            // It's celebration time!
+            countdownContainer.style.display = 'none';
+            mainContent.style.display = 'block';
+            // Start celebrations
+            createBalloons();
+            createConfetti();
+            setInterval(createConfetti, 2500);
+            // Initialize music
+            loadPlaylist();
+            loadSong(0);
+        } else {
+            // Still counting down
+            mainContent.style.display = 'none';
+            updateCountdown();
+        }
+    }
+
+    function updateCountdown() {
+        const currentDate = new Date();
+        const difference = targetDate - currentDate;
+
+        if (difference <= 0) {
+            // It's time! Update title and show content
+            document.title = "Happy Birthday Vihu 🎉";
+            countdownContainer.style.display = 'none';
+            mainContent.style.display = 'block';
+            return;
+        }
+
+        // Calculate remaining time
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        // Update countdown display
+        document.getElementById('countdown').innerHTML = `
+            ${days}d ${hours}h ${minutes}m ${seconds}s
+        `;
+
+        // Update the page title with countdown
+        document.title = `${days}d ${hours}h until the surprise 🎀`;
+
+        // Update every second
+        setTimeout(updateCountdown, 1000);
+    }
+
+    // Initial check
+    checkTime();
+});
+
+        const playlist = [
+            {
+                title: "Taaj",
+                artist: "Lost stories",
+                file: "songs/Taaj-Lost-Stories-JAI-DHIR-(CeeNaija.com).mp3"
+            },
+            {
+                title: "Left and Right",
+                artist: "Charlie Puth",
+                file: "songs/Left And Right BTS - 320Kbps-(Mr-Jat.in).mp3"
+            },
+            {
+                title: "Sunroof",
+                artist: "Nicky Youre",
+                file: "songs/Nicky_Youre_-_Sunroof_Ft_Dazy_CeeNaija.com_.mp3"
+            },
+            {
+                title: "Hakuna Matata",
+                artist: "Lion King",
+                file: "songs/04 Hakuna Matata.mp3"
+            },
+            {
+                title: "Espresso",
+                artist: "Sabrina Carpenter",
+                file: "songs/Espresso-(SambalpuriStar.In).mp3"
+            }
+        ];
+
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        const audio = new Audio();
+
+        // Function to load playlist
+        function loadPlaylist() {
+            const playlistContainer = document.getElementById('playlist');
+            playlistContainer.innerHTML = '';
+
+            playlist.forEach((song, index) => {
+                const songItem = document.createElement('div');
+                songItem.classList.add('playlist-item');
+                if (index === currentSongIndex) {
+                    songItem.classList.add('active');
+                }
+
+                songItem.innerHTML = `
+                    <div>
+                        <strong>${song.title}</strong><br>
+                        ${song.artist}
+                    </div>
+                `;
+
+                songItem.addEventListener('click', () => {
+                    currentSongIndex = index;
+                    loadSong(currentSongIndex);
+                    playMusic();
+                });
+
+                playlistContainer.appendChild(songItem);
+            });
+        }
+
+        // Function to load a specific song
+        function loadSong(index) {
+            const song = playlist[index];
+            audio.src = song.file;
+
+            // Update active state in playlist
+            const playlistItems = document.querySelectorAll('.playlist-item');
+            playlistItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Function to toggle music play/pause
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                document.querySelector('.music-button:nth-child(2)').textContent = '▶️';
+            } else {
+                playMusic();
+            }
+        }
+
+        // Function to play music
+        function playMusic() {
+            audio.play().catch(error => {
+                console.log("Error playing audio:", error);
+            });
+            isPlaying = true;
+            document.querySelector('.music-button:nth-child(2)').textContent = '⏸️';
+        }
+
+        // Function to play next song
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            loadSong(currentSongIndex);
+            if (isPlaying) {
+                playMusic();
+            }
+        }
+
+        // Function to play previous song
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+            loadSong(currentSongIndex);
+            if (isPlaying) {
+                playMusic();
+            }
+        }
+
+        // Event listener for when a song ends
+        audio.addEventListener('ended', () => {
+            nextSong();
+        });
+
+        // Initialize the music player
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentDate = new Date();
+            const targetDate = new Date('2025-05-13T00:00:00');
+            
+            if (currentDate >= targetDate) {
+                // Only initialize if it's time
+                loadPlaylist();
+                loadSong(0);
+            }
+        });
+
+        // Confetti and balloon functions
+        function createConfetti() {
+            const colors = ['#ffd700', '#ff69b4', '#ff1493', '#ffa500'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(confetti);
+
+                confetti.addEventListener('animationend', () => {
+                    confetti.remove();
+                });
+            }
+        }
+
+        function createBalloons() {
+            const colors = ['#ffd700', '#ff69b4', '#ff1493', '#ffa500'];
+            for (let i = 0; i < 8; i++) {
+                const balloon = document.createElement('div');
+                balloon.style.left = (i * 12 + 5) + '%';
+                balloon.style.animationDelay = (i * 0.2) + 's';
+                balloon.style.animationDelay = (i * 0.2) + 's';
+                const balloonBody = document.createElement('div');
+                balloonBody.className = 'balloon-body';ent('div');
+                balloonBody.style.backgroundColor = colors[i % colors.length];
+                balloonBody.style.backgroundColor = colors[i % colors.length];
+                const string = document.createElement('div');
+                string.className = 'balloon-string';t('div');
+                string.className = 'balloon-string';
+                balloon.appendChild(balloonBody);
+                balloon.appendChild(string);
+                document.body.appendChild(balloon);
+            }
+        }
+
+        // Mobile touch support for quotes
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('touchstart', function () {
+                // Remove active class from all items
+                document.querySelectorAll('.gallery-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                // Add active class to clicked item
+                this.classList.add('active');
+            });
+        });
+
+        // Close quote on touch outside
+        document.addEventListener('touchstart', function (e) {
+            if (!e.target.closest('.gallery-item')) {
+                document.querySelectorAll('.gallery-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+
+        // Start the celebration effects
+        createBalloons();
+        createConfetti();
+        setInterval(createConfetti, 2500);
+    </script>terval(createConfetti, 2500);
+</body>cript>
+</html>
+</html>
